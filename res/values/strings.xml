@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Baby feeding app</string>
+    <string name="app_header">Baby feeder</string>
+    <string name="app_description">Simple app for tracking the breastfeeding.</string>
+    <string name="app_eating">Baby has eaten!</string>
+    <string name="app_history">Last feed</string>
+    <string name="app_history2">History</string>
+    <string name="track_amount_name">How much?</string>
+    <string name="track_amount_param">60</string>
+    <string name="track_ml">ml</string>
+    <string name="track_save">NEXT</string>
+    <string name="track_na">I don´t care</string>
+    <string name="time_save">Save</string>
+</resources>
