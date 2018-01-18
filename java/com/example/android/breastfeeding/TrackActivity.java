@@ -19,13 +19,15 @@ public class TrackActivity extends AppCompatActivity {
     CheckBox satView;
     TextView ml;
     private double dAmount;
+    int typeBF;
+    String amountText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track2);
         Intent i = getIntent();
-        int typeBF = i.getIntExtra(EXTRA, -1);
+        typeBF = i.getIntExtra(EXTRA, -2);
         zmenaSB = (SeekBar) findViewById(R.id.zmenaSeekBar);
         amountET = (EditText) findViewById(R.id.amountEditText);
         zmenaSB.setOnSeekBarChangeListener(amountSBListener);
@@ -38,7 +40,7 @@ public class TrackActivity extends AppCompatActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
         dAmount = (zmenaSB.getProgress()*10);
-
+        amountText = String.valueOf(dAmount) + " ml";
         amountET.setText(String.format("%.0f",dAmount));
         }
 
@@ -70,9 +72,11 @@ public class TrackActivity extends AppCompatActivity {
     };
 
     public void amountClick(View view) {
+        typeBF = 1;
         Intent intent = new Intent(this, TimeActivity.class);
-        intent.putExtra(TimeActivity.eType, EXTRA);
-        intent.putExtra(TimeActivity.eAmount, dAmount);
+        intent.putExtra("type", typeBF);
+        intent.putExtra("amount", amountText);
+
         startActivity(intent);
     }
 }

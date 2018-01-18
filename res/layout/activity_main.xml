@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/breast" />
 
     <TextView
-        android:id="@+id/lastFeed"
+        android:id="@+id/lastFeedTV"
         android:layout_width="332dp"
         android:layout_height="42dp"
         android:layout_marginLeft="24dp"
@@ -63,7 +63,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/app_history2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastFeed" />
+        app:layout_constraintTop_toBottomOf="@+id/lastFeedTV" />
 
     <TextView
         android:id="@+id/firstTV"
