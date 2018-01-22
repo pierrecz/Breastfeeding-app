@@ -17,10 +17,13 @@ public class TrackActivity extends AppCompatActivity {
     SeekBar zmenaSB;
     EditText amountET;
     CheckBox satView;
+    CheckBox rView;
+    CheckBox lView;
     TextView ml;
     private double dAmount;
     int typeBF;
     String amountText;
+    int intentAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,10 @@ public class TrackActivity extends AppCompatActivity {
         zmenaSB.setProgress(6); //Start position of seek bar
         satView = (CheckBox) findViewById(R.id.zmenaCheckBox);
         satView.setOnClickListener(zmenaSV);
+
+        rView = (CheckBox) findViewById(R.id.rightBoob);
+        lView = (CheckBox) findViewById(R.id.leftBoob);
+
         ml = (TextView) findViewById(R.id.ml_TV);
     }
     private SeekBar.OnSeekBarChangeListener amountSBListener = new SeekBar.OnSeekBarChangeListener() {
@@ -63,20 +70,61 @@ public class TrackActivity extends AppCompatActivity {
                 zmenaSB.setVisibility(View.GONE);
                 amountET.setVisibility(View.GONE);
                 ml.setVisibility(View.GONE);
+                amountET.setText("0");
             }else{
                 zmenaSB.setVisibility(View.VISIBLE);
                 amountET.setVisibility(View.VISIBLE);
                 ml.setVisibility(View.VISIBLE);
+                amountET.setText("60");
             }
         }
     };
 
     public void amountClick(View view) {
-        typeBF = 1;
         Intent intent = new Intent(this, TimeActivity.class);
         intent.putExtra("type", typeBF);
-        intent.putExtra("amount", amountText);
-
+        try {
+            intentAmount = Integer.parseInt(amountET.getText().toString());
+        } catch(NumberFormatException nfe) {
+            System.out.println("Could not parse " + nfe);
+        }
+        intent.putExtra("amount", intentAmount);
+        intent.putExtra("boobie", boobieString());
         startActivity(intent);
+    }
+
+    public void rOnClick (View view) {
+        if (rView.isChecked()) {
+            rView.setChecked(false);
+        }
+        else{
+            rView.setChecked(true);
+        }
+    }
+
+    public void lOnClick (View view) {
+        if (lView.isChecked()) {
+            lView.setChecked(false);
+        }
+        else{
+            lView.setChecked(true);
+        }
+    }
+
+    public String boobieString() {
+        String output = "";
+        if (rView.isChecked() && lView.isChecked()) {
+            output = getString(R.string.track_L) + "+" + getString(R.string.track_R);
+        }
+        else if (!rView.isChecked() && lView.isChecked()){
+            output = getString(R.string.track_L);
+        }
+        else if (rView.isChecked() && !lView.isChecked()){
+            output = getString(R.string.track_R);
+        }
+        else {
+            output = "-";
+        }
+        return output;
     }
 }

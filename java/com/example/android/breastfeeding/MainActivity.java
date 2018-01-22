@@ -17,10 +17,15 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
 
     TextView lastFeedsTV;
+    TextView oneFeedsTV;
+    TextView twoFeedsTV;
+    TextView threeFeedsTV;
+
+    public static long count;
 
     //Database ID
     protected static final String DB_DATABASE = "dbFeed";
-    protected static final int DB_VERSION = 2;
+    protected static final int DB_VERSION = 3;
     protected static final String DB_TABLE = "tblFeed";
 
     //Table columns
@@ -29,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String ATR_AMOUNT = "amount";
     public static final String ATR_TYPE = "type";
     public static final String ATR_DATE = "date"; //Prepared for further use
+    public static final String ATR_BOOB = "boob"; //Prepared for further use
 
     public static class MyHelper extends SQLiteOpenHelper {
 
@@ -40,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL("CREATE TABLE " + DB_TABLE + " (" + ATR_ID + " INTEGER PRIMARY KEY," + ATR_TIME + " TEXT," + ATR_AMOUNT + " TEXT," + ATR_TYPE + " TEXT," + ATR_DATE + " TEXT" + ");");
+            db.execSQL("CREATE TABLE " + DB_TABLE + " (" + ATR_ID + " INTEGER PRIMARY KEY," + ATR_TIME + " TEXT," + ATR_AMOUNT + " INTEGER," + ATR_TYPE + " INTEGER," + ATR_DATE + " TEXT," + ATR_BOOB + " TEXT" + ");");
         }
 
         @Override
@@ -64,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
         public HashMap<String, String> getRecords(){
             SQLiteDatabase db = this.getWritableDatabase();
-            long cnt  = DatabaseUtils.queryNumEntries(db, DB_TABLE);
-            String cntText = String.valueOf(cnt);
+            count  = numberOfRows();
+            String cntText = String.valueOf(count);
             HashMap<String, String> hm = new HashMap<String, String>();
             SQLiteDatabase db2 = this.getReadableDatabase();
             String sSQL = "SELECT * FROM " + DB_TABLE + " WHERE " + ATR_ID +"=" + cntText;
@@ -75,28 +81,92 @@ public class MainActivity extends AppCompatActivity {
                     hm.put(ATR_TIME, cursor.getString(1));
                     hm.put(ATR_AMOUNT, cursor.getString(2));
                     hm.put(ATR_TYPE, cursor.getString(3));
+                    hm.put(ATR_BOOB, cursor.getString(5));
                 } while (cursor.moveToNext());
             }
             return hm;
         }
+
+        public long numberOfRows(){
+            SQLiteDatabase db = this.getWritableDatabase();
+            long cnt  = DatabaseUtils.queryNumEntries(db, DB_TABLE);
+            return cnt;
+        }
+
+        public HashMap<String, String> getRecords(long less){
+            SQLiteDatabase db = this.getWritableDatabase();
+            less = less - 1;
+            count = less;
+            String cntText = String.valueOf(less);
+            HashMap<String, String> hm = new HashMap<String, String>();
+            SQLiteDatabase db2 = this.getReadableDatabase();
+            String sSQL = "SELECT * FROM " + DB_TABLE + " WHERE " + ATR_ID +"=" + cntText;
+            Cursor cursor = db2.rawQuery(sSQL, null);
+            if (cursor.moveToFirst()){
+                do {
+                    hm.put(ATR_TIME, cursor.getString(1));
+                    hm.put(ATR_AMOUNT, cursor.getString(2));
+                    hm.put(ATR_TYPE, cursor.getString(3));
+                    hm.put(ATR_BOOB, cursor.getString(5));
+                } while (cursor.moveToNext());
+            }
+            return hm;
+        }
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         lastFeedsTV = (TextView) findViewById(R.id.lastFeedTV);
+        oneFeedsTV = (TextView) findViewById(R.id.oneFeedsTV);
+        twoFeedsTV = (TextView) findViewById(R.id.twoFeedsTV);
+        threeFeedsTV = (TextView) findViewById(R.id.threeFeedsTV);
+
         // Creating instance of controller
         MyHelper controller = new MyHelper(this);
         HashMap<String, String> lastFeed = controller.getRecords();
-
         if (lastFeed.size()!=0)
         {
-            lastFeedsTV.setText(lastFeed.get(ATR_TIME)+"   "+lastFeed.get(ATR_AMOUNT)+ " " +lastFeed.get(ATR_TYPE));
+            lastFeedsTV.setText(lastFeed.get(ATR_TIME)+" │ "+getMeAmount(lastFeed.get(ATR_AMOUNT))+ " │ " +getMeBreastType(lastFeed.get(ATR_TYPE))+ " │ " + lastFeed.get(ATR_BOOB));
         }
         else {
             lastFeedsTV.setText("No records");
         }
+
+        HashMap<String, String> oneFeed = controller.getRecords(count);
+
+        if (oneFeed.size()!=0)
+        {
+            oneFeedsTV.setText(oneFeed.get(ATR_TIME)+" │ "+getMeAmount(oneFeed.get(ATR_AMOUNT))+ " │ " +getMeBreastType(oneFeed.get(ATR_TYPE))+ " │ " + oneFeed.get(ATR_BOOB));
+        }
+        else {
+            oneFeedsTV.setText("No records");
+        }
+
+        HashMap<String, String> twoFeed = controller.getRecords(count);
+
+        if (oneFeed.size()!=0)
+        {
+            twoFeedsTV.setText(twoFeed.get(ATR_TIME)+" │ "+getMeAmount(twoFeed.get(ATR_AMOUNT))+ " │ " +getMeBreastType(twoFeed.get(ATR_TYPE))+ " │ " + twoFeed.get(ATR_BOOB));
+        }
+        else {
+            twoFeedsTV.setText("No records");
+        }
+
+        HashMap<String, String> threeFeed = controller.getRecords(count);
+
+        if (oneFeed.size()!=0)
+        {
+            threeFeedsTV.setText(threeFeed.get(ATR_TIME)+" │ "+getMeAmount(threeFeed.get(ATR_AMOUNT))+ " │ " +getMeBreastType(threeFeed.get(ATR_TYPE))+ " │ " + threeFeed.get(ATR_BOOB));
+        }
+        else {
+            threeFeedsTV.setText("No records");
+        }
+
+
     }
     int typeBreastFeeding;
 
@@ -112,16 +182,35 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(TrackActivity.EXTRA, typeBreastFeeding);
         startActivity(intent);
     }
-    public static String getMeBreastType(int type)  {
+
+    public void breastPumpClick (View view)  {
+        typeBreastFeeding = 3;
+        Intent intent = new Intent(this, TrackActivity.class);
+        intent.putExtra(TrackActivity.EXTRA, typeBreastFeeding);
+        startActivity(intent);
+    }
+
+    public String getMeBreastType(String type)  {
         String breastTypeText = "";
         switch (type) {
-            case 1:  breastTypeText = " breastfeeding from breast";
+            case "1":  breastTypeText = " " + getString(R.string.app_typeBreast);
                 break;
-            case 2:  breastTypeText = " breastfeeding from bottle";
+            case "2":  breastTypeText = " " + getString(R.string.app_typeBottle);
                 break;
-            case 3:  breastTypeText = " suction of milk";
+            case "3":  breastTypeText = " " + getString(R.string.app_typeBreastPump);
         }
         return breastTypeText;
+    }
+
+    public static String getMeAmount(String amount)  {
+        String amountText = "";
+        if (amount.equals("0")){
+            amountText = "-";
+        }
+        else {
+            amountText = amount + " ml";
+        }
+        return amountText;
     }
 
 }

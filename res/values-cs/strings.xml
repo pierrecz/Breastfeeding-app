@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Prcko-ukládání</string>
+    <string name="app_header">Prcko-ukládání</string>
+    <string name="track_amount_name">Kolik?</string>
+    <string name="track_amount_param">60</string>
+    <string name="track_ml">ml</string>
+    <string name="track_save">DALŠÍ</string>
+    <string name="track_na">Je mi to fuk</string>
+    <string name="track_L">L</string>
+    <string name="track_R">P</string>
+    <string name="time_save">Uložit</string>
+    <string name="app_defaultLastFeedTV">Error databáze</string>
+    <string name="app_typeBreast">Prso</string>
+    <string name="app_typeBottle">Láhev</string>
+    <string name="app_typeBreastPump">Odsávačka</string>
+</resources>

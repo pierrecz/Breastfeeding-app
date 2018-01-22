@@ -79,27 +79,67 @@
         android:text="@string/track_save"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton3" />
+        app:layout_constraintTop_toBottomOf="@+id/lButton" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/rButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginTop="12dp"
+        android:onClick="rOnClick"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/zmenaSeekBar"
         app:srcCompat="@drawable/breasts_left" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/lButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="12dp"
+        android:onClick="lOnClick"
+        app:layout_constraintStart_toEndOf="@+id/rButton"
+        app:layout_constraintTop_toBottomOf="@+id/zmenaSeekBar"
+        app:srcCompat="@drawable/breasts_right" />
+
+    <CheckBox
+        android:id="@+id/leftBoob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/leftBoobText" />
+
+    <CheckBox
+        android:id="@+id/rightBoob"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rightBoobText" />
+
+    <TextView
+        android:id="@+id/rightBoobText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="80dp"
+        android:text="@string/track_R"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/zmenaSeekBar" />
+
+    <TextView
+        android:id="@+id/leftBoobText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="80dp"
+        android:text="@string/track_L"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageButton2"
-        app:srcCompat="@drawable/breasts_right"
-        tools:layout_editor_absoluteY="251dp" />
+        app:layout_constraintTop_toBottomOf="@+id/zmenaSeekBar" />
 
 </android.support.constraint.ConstraintLayout>

@@ -10,5 +10,12 @@
     <string name="track_ml">ml</string>
     <string name="track_save">NEXT</string>
     <string name="track_na">I don´t care</string>
+    <string name="track_L">L</string>
+    <string name="track_R">R</string>
     <string name="time_save">Save</string>
+    <string name="app_defaultLastFeedTV">Error database</string>
+    <string name="app_typeBreast">Breast</string>
+    <string name="app_typeBottle">Bottle</string>
+    <string name="app_typeBreastPump">Breast pump</string>
+
 </resources>
