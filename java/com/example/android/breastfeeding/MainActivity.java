@@ -192,24 +192,39 @@ public class MainActivity extends AppCompatActivity {
 
     public String getMeBreastType(String type)  {
         String breastTypeText = "";
-        switch (type) {
-            case "1":  breastTypeText = " " + getString(R.string.app_typeBreast);
-                break;
-            case "2":  breastTypeText = " " + getString(R.string.app_typeBottle);
-                break;
-            case "3":  breastTypeText = " " + getString(R.string.app_typeBreastPump);
+
+        if (type == null) {
+            breastTypeText = "wtf2";
+        }
+        else {
+            switch (type) {
+                case "1":
+                    breastTypeText = " " + getString(R.string.app_typeBreast);
+                    break;
+                case "2":
+                    breastTypeText = " " + getString(R.string.app_typeBottle);
+                    break;
+                case "3":
+                    breastTypeText = " " + getString(R.string.app_typeBreastPump);
+            }
         }
         return breastTypeText;
     }
 
     public static String getMeAmount(String amount)  {
         String amountText = "";
-        if (amount.equals("0")){
-            amountText = "-";
+
+        if (amount == null){
+            amountText = "wtf";
         }
-        else {
-            amountText = amount + " ml";
-        }
+        else{
+            if (amount.equals("0")){
+                amountText = "-";
+            }
+            else {
+                amountText = amount + " ml";
+            }
+    }
         return amountText;
     }
 
